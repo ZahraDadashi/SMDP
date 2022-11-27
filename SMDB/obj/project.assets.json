@@ -3506,9 +3506,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\vs\\SMDBproj\\SMDB\\SMDB.csproj",
-      "projectName": "SMDB",
-      "projectPath": "G:\\vs\\SMDBproj\\SMDB\\SMDB.csproj",
+      "projectUniqueName": "G:\\vs\\SMDBproj\\SMDB\\SMDP.csproj",
+      "projectName": "SMDP",
+      "projectPath": "G:\\vs\\SMDBproj\\SMDB\\SMDP.csproj",
       "packagesPath": "C:\\Users\\Zahra\\.nuget\\packages\\",
       "outputPath": "G:\\vs\\SMDBproj\\SMDB\\obj\\",
       "projectStyle": "PackageReference",

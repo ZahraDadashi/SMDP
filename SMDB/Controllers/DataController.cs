@@ -26,6 +26,35 @@ namespace SMDB.Controllers
             var dailypricelist = db.DailyPrices.Select(i =>
             new { i }).ToList();
             return dailypricelist;          
-          }        
+         }
+        [HttpGet("/Fund")]
+        public dynamic Fund()
+        {
+            var fundlist = db.Funds.Select(i =>
+            new { i }).ToList();
+            return fundlist;
+        }
+        [HttpGet("/Industry")]
+        public dynamic Industry()
+        {
+            var industrylist = db.Industries.Select(i =>
+            new { i }).ToList();
+            return industrylist;
+        }
+        [HttpGet("/Instrument")]
+        public dynamic Instrument()
+        {
+            var instrumentlist = db.Instruments.Select(i =>
+            new { i }).ToList();
+            return instrumentlist;
+        }
+        [HttpGet("/LetterType")]
+        public dynamic LetterType()
+        {
+            var letterTypelist = db.LetterTypes.Select(i =>
+            new { i }).ToList();
+            return letterTypelist;
+        }
+
     }
 }

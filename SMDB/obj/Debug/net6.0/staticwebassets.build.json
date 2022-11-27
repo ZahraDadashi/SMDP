@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "zSlA2udKVBhSNwHd+JFX/ZbbJzHawBMc33aeVFQrliM=",
+  "Source": "SMDB",
+  "BasePath": "_content/SMDB",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

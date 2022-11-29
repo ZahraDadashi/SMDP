@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-
-namespace SMDB.SMDPModels;
+namespace SMDP.SMDPModels;
 
 public partial class SmdpContext : DbContext
 {

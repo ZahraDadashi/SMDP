@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace SMDB.SMDPModels;
+namespace SMDP.SMDPModels;
 
 [Table("DailyPrice")]
 [Index("Deven", Name = "NonClusteredIndex-20210912-132637", AllDescending = true)]

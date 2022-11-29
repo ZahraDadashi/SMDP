@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace SMDB.SMDPModels;
+namespace SMDP.SMDPModels;
 
 [Table("LetterTypes", Schema = "Codal")]
 public partial class LetterType

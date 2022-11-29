@@ -1,14 +1,26 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http; 
 using Newtonsoft.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using SMDB.SMDPModels;
+using SMDP.SMDPModels;
+using Microsoft.AspNetCore.Authorization;
+using SMDP;
+using Microsoft.AspNetCore.Http;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-
-namespace SMDB.Controllers
+namespace SMDP.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    // [Authorize]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+
+
     public class DataController : ControllerBase
     {
         SmdpContext db = new SmdpContext();
@@ -21,6 +33,7 @@ namespace SMDB.Controllers
         }
 
         [HttpGet("/DailyPrice")]
+        
         public dynamic DailyPrice()
          {
             var dailypricelist = db.DailyPrices.Select(i =>
@@ -28,6 +41,8 @@ namespace SMDB.Controllers
             return dailypricelist;          
          }
         [HttpGet("/Fund")]
+        
+
         public dynamic Fund()
         {
             var fundlist = db.Funds.Select(i =>
@@ -35,6 +50,7 @@ namespace SMDB.Controllers
             return fundlist;
         }
         [HttpGet("/Industry")]
+        
         public dynamic Industry()
         {
             var industrylist = db.Industries.Select(i =>
@@ -42,6 +58,7 @@ namespace SMDB.Controllers
             return industrylist;
         }
         [HttpGet("/Instrument")]
+        
         public dynamic Instrument()
         {
             var instrumentlist = db.Instruments.Select(i =>
@@ -49,6 +66,7 @@ namespace SMDB.Controllers
             return instrumentlist;
         }
         [HttpGet("/LetterType")]
+
         public dynamic LetterType()
         {
             var letterTypelist = db.LetterTypes.Select(i =>

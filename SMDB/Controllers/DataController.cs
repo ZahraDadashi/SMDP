@@ -34,10 +34,10 @@ namespace SMDP.Controllers
 
         [HttpGet("/DailyPrice")]
         
-        public dynamic DailyPrice()
+        public dynamic DailyPrice(long a)
          {
-            var dailypricelist = db.DailyPrices.Select(i =>
-            new { i }).ToList();
+            var dailypricelist = db.DailyPrices.Where(i =>
+              i.InsCode== a).ToList();
             return dailypricelist;          
          }
         [HttpGet("/Fund")]

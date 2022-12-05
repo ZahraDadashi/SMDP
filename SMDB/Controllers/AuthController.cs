@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using SMDP.SMDPModels;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -13,7 +14,7 @@ namespace SMDP.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        public static Userr user = new Userr();
         private readonly IConfiguration _configuration;
 
         public AuthController(IConfiguration configuration)
@@ -22,33 +23,55 @@ namespace SMDP.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        public async Task<ActionResult<Userr>> Register(UserDto request)
         {
-            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            user.UserName = request.UserName;
-            user.PasswordHash = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            using (SmdpContext db = new())
+            {
+                CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                user.UserName = request.UserName;
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                User usr = new User();
+                {
+                    usr.UserName = user.UserName; 
+                    usr.PasswordHash = user.PasswordHash;
+                    usr.PasswordSalt = user.PasswordSalt;
+                }
+                db.Users.Add(usr);
+                db.SaveChanges();               
+            }
             return Ok(user);
-         }
+
+        }
 
         [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<string>> Login(UserDto request)
         {
-            if(user.UserName != request.UserName)
+            Userr userlogin = new Userr();
+            CreatePasswordHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            userlogin.UserName = request.UserName;
+            userlogin.PasswordHash = passwordHash;
+            userlogin.PasswordSalt = passwordSalt;
+            
+            SmdpContext db = new SmdpContext();          
+            var usertable = db.Users.Where(i =>
+               i.UserName== userlogin.UserName).FirstOrDefault();
+                                 
+            if (usertable == null)
             {
                 return BadRequest("User not found.");
             }
 
-            if(!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+            if (!VerifyPasswordHash(request.Password, usertable.PasswordHash, usertable.PasswordSalt))
             {
                 return BadRequest("Wrong password.");
             }
-            string token = CreateToken(user);
+            string token = CreateToken(userlogin);
             return Ok(token);
         }
 
-        private string CreateToken(User user)
+        private string CreateToken(Userr user)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -58,11 +81,11 @@ namespace SMDP.Controllers
             var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(
                 _configuration.GetSection("AppSettings:Token").Value));
 
-
+            
             var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
             var token = new JwtSecurityToken(
                 claims: claims,               
-                expires: DateTime.UtcNow.AddMinutes(10),
+                expires: DateTime.UtcNow.AddDays(1),
                 issuer : _configuration.GetSection("AppSettings").GetSection("Issuer").Value,
                 audience:_configuration.GetSection("AppSettings").GetSection("Audience").Value,
                 signingCredentials: cred);

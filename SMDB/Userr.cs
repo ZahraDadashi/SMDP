@@ -1,6 +1,6 @@
 ﻿namespace SMDP
 {
-    public class User
+    public class Userr
     {
         public string UserName { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; } 
